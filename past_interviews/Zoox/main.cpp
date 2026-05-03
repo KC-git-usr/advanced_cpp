@@ -1,5 +1,6 @@
 #include <cstdint>
 #include <iostream>
+#include <queue>
 #include <ranges>
 #include <unordered_map>
 #include <variant>
@@ -44,7 +45,7 @@ struct Key {
     }
 };
 
-struct CustomHash {
+struct CustomKeyHash {
     std::size_t operator()(const Key& key) const {
         const std::size_t h1 = std::hash<int>{}(key.id);
         const std::size_t h2 = std::hash<std::string>{}(key.name);
@@ -111,6 +112,19 @@ private:
 };
 // Rule of 5 END
 
+// priority_queue START
+struct Patient {
+    std::string name{};
+    uint8_t priority{}; // higher prio implies more urgent
+};
+struct CustomPatientComparator {
+    bool operator()(const Patient& lhs, const Patient& rhs) const {
+        return lhs.priority < rhs.priority;
+    }
+};
+// priority_queue END
+
+
 int main(int argc, char** argv) {
     // CRTP START
     Dog dog;
@@ -127,7 +141,7 @@ int main(int argc, char** argv) {
     // CRTP END
 
     // umap with custom hashable Key START
-    std::unordered_map<Key, std::variant<Dog, Cat>, CustomHash> my_map;
+    std::unordered_map<Key, std::variant<Dog, Cat>, CustomKeyHash> my_map;
     my_map.emplace(Key{1, "Cat"}, cat);
     my_map.emplace(Key{2, "Dog"}, dog);
     // umap with custom hashable Key END
@@ -141,7 +155,21 @@ int main(int argc, char** argv) {
     std::cout<<std::endl;
     // ranges & views END
 
+    // priority_queue START
+    std::priority_queue<uint8_t, std::vector<uint8_t>, std::greater<>> min_heap;
+    min_heap.emplace(0);
+    min_heap.emplace(1);
+    min_heap.emplace(2);
+    const auto min_ele = min_heap.top();
+    printf("Min element: %d\n", min_ele);
+    min_heap.pop();
 
+    std::priority_queue<Patient, std::vector<Patient>, CustomPatientComparator> patients;
+    patients.emplace(Patient{"John Doe", 64});
+    patients.emplace(Patient{"Prince Habibi", 42});
+    printf("Most urgent patient: %s with priority %d\n", patients.top().name.c_str(), patients.top().priority);
+    patients.pop();
+    // priority_queue END
 
     return 0;
 }
