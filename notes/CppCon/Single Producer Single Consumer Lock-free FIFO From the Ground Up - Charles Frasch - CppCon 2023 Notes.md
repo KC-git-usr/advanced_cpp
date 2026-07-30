@@ -1,6 +1,6 @@
-Original source: https://www.youtube.com/watch?v=K3P_Lmq6pw0
-Presentation slides: https://github.com/CppCon/CppCon2023/blob/main/Presentations/SPSC_Lock-free_Wait-Free_Fifo_from_the_Ground_Up_CppCon_2023.pdf
-Source code: https://github.com/CharlesFrasch/cppcon2023
+- Original source: https://www.youtube.com/watch?v=K3P_Lmq6pw0
+- Presentation slides: https://github.com/CppCon/CppCon2023/blob/main/Presentations/SPSC_Lock-free_Wait-Free_Fifo_from_the_Ground_Up_CppCon_2023.pdf
+- Source code: https://github.com/CharlesFrasch/cppcon2023
 
 # Notes:
 
